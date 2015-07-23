@@ -4,26 +4,7 @@ $(document).ready( function() {
 
     var gitAPI = 'https://api.github.com/';
     var gitRepoSearch = 'search/repositories?q='
-    // $('.c-fetch-git-info').on('click', function() {
-    //     var gitRepo = $('.c-git-repo').val();
-    //     var findGitRepo = gitAPI + gitRepoSearch + gitRepo;
-    //
-    //     // Assign handlers immediately after making the request,
-    //     // and remember the jqxhr object for this request
-    //     var jqxhr = $.getJSON( findGitRepo, function(json) {
-    //         console.log( json.items );
-    //         $('.c-gitSelect')[0].innerHTML = '<option>DDD</option>';
-    //     }).fail(function() {
-    //         console.log( "error" );
-    //     });
-    //
-    //     // Set completion function for the request above
-    //     jqxhr.complete(function() {
-    //         console.log( "complete" );
-    //     });
-    //
-    //
-    // });
+
 
     // Get all the files in a sprint
     var getAllTheFileFormAllBranch = function(gitSha) {
@@ -36,22 +17,13 @@ $(document).ready( function() {
             {
                 console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
                 results.tree.map( function(currentValue) {
-
-                    // if(currentValue.type === 'tree') {
-                    //     console.log('Folder = > ' + currentValue.path);
-                    //     getAllTheFileFormAllBranch(currentValue.sha);
-                    // } else {
-                    //     // console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ');
-                    //     console.log(currentValue.path);
-                    // }
                     console.log(currentValue.path);
-
-
                 });
             }
         });
     };
-getAllTheFileFormAllBranch('454c7dd82528559c862a44d5692b5a842b822eaa');
+
+// getAllTheFileFormAllBranch('454c7dd82528559c862a44d5692b5a842b822eaa');
 
     // Get the numbe of "TODO" in each file in a branch
     var getNumberOfToDos = function(username, repoName, branchName) {
@@ -89,8 +61,8 @@ getAllTheFileFormAllBranch('454c7dd82528559c862a44d5692b5a842b822eaa');
                         branchName  = currentValue.ref.split('/').pop();
                         $table.push('<div class=""><span class="">' + currentValue.ref + '</span><br><span class="">' + currentValue.object.url + '</span></div>');
                         $options.push('<option>' + branchName + '</option>');
-                        // getAllTheFileFormAllBranch(gitSha);
-                        // getNumberOfToDos(username, repoName, branchName);
+                        getAllTheFileFormAllBranch(gitSha);
+                        getNumberOfToDos(username, repoName, branchName);
                     }
                 });
                 $('.c-gitSelect')[0].innerHTML = $options.join('');
