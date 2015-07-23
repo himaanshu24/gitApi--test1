@@ -7,14 +7,12 @@ $(document).ready( function() {
 
     // Get the numbe of "TODO" in each file in a branch
     var getNumberOfToDos = function(username, repoName, branchName) {
-        // // TODO: hardcoded for now -- need to be changed
-        // branchName = 'Sprint1-code-review';
         $.ajax({
             url: 'https://raw.githubusercontent.com/' + username + '/' + repoName + '/' + branchName + '/chapter/vince-camuto.htm',
             head: 'Accept: application/api.github.VERSION.raw',
             success: function(results, xhr)
             {
-                // console.log(results.match(/TODO/g).length);
+                console.log(results.match(/TODO/g).length);
             }
         });
     };
@@ -29,7 +27,7 @@ $(document).ready( function() {
                 console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
                 results.tree.map( function(currentValue) {
                     if(currentValue.type === 'blob') {
-                       console.log('Folder = > ',  currentValue.path);
+                    //    console.log('Files = > ',  currentValue.path);
                        getNumberOfToDos(username, repoName, branchName);
                     }
                 });
