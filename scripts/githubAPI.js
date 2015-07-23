@@ -7,11 +7,11 @@ $(document).ready( function() {
 
 
     // Get all the files in a sprint
-    var getAllTheFileFormAllBranch = function(gitSha) {
+    var getAllTheFileFormAllBranch = function(gitSha, repoName) {
         // TODO: hardcoded for now -- need to be changed
         // gitSha = '454c7dd82528559c862a44d5692b5a842b822eaa';
         $.ajax({
-            url: 'https://api.github.com/repos/himanshuk-optimus/my-first-github/git/trees/'+gitSha+'?recursive=1',
+            url: 'https://api.github.com/repos/himanshuk-optimus/'+repoName+'/git/trees/'+gitSha+'?recursive=1',
             head: 'Accept: application/api.github.VERSION.raw',
             success: function(results, xhr)
             {
@@ -61,7 +61,7 @@ $(document).ready( function() {
                         branchName  = currentValue.ref.split('/').pop();
                         $table.push('<div class=""><span class="">' + currentValue.ref + '</span><br><span class="">' + currentValue.object.url + '</span></div>');
                         $options.push('<option>' + branchName + '</option>');
-                        getAllTheFileFormAllBranch(gitSha);
+                        getAllTheFileFormAllBranch(gitSha, repoName);
                         getNumberOfToDos(username, repoName, branchName);
                     }
                 });
