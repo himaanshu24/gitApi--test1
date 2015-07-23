@@ -5,30 +5,10 @@ $(document).ready( function() {
     var gitAPI = 'https://api.github.com/';
     var gitRepoSearch = 'search/repositories?q='
 
-
-    // Get all the files in a sprint
-    var getAllTheFileFormAllBranch = function(gitSha, repoName) {
-        // TODO: hardcoded for now -- need to be changed
-        // gitSha = '454c7dd82528559c862a44d5692b5a842b822eaa';
-        $.ajax({
-            url: 'https://api.github.com/repos/himanshuk-optimus/'+repoName+'/git/trees/'+gitSha+'?recursive=1',
-            head: 'Accept: application/api.github.VERSION.raw',
-            success: function(results, xhr)
-            {
-                console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-                results.tree.map( function(currentValue) {
-                    console.log(currentValue.path);
-                });
-            }
-        });
-    };
-
-// getAllTheFileFormAllBranch('454c7dd82528559c862a44d5692b5a842b822eaa');
-
     // Get the numbe of "TODO" in each file in a branch
     var getNumberOfToDos = function(username, repoName, branchName) {
-        // TODO: hardcoded for now -- need to be changed
-        branchName = 'Sprint1-code-review';
+        // // TODO: hardcoded for now -- need to be changed
+        // branchName = 'Sprint1-code-review';
         $.ajax({
             url: 'https://raw.githubusercontent.com/' + username + '/' + repoName + '/' + branchName + '/chapter/vince-camuto.htm',
             head: 'Accept: application/api.github.VERSION.raw',
@@ -38,6 +18,25 @@ $(document).ready( function() {
             }
         });
     };
+
+    // Get all the files in a sprint
+    var getAllTheFileFormAllBranch = function(username, repoName, gitSha, branchName) {
+        $.ajax({
+            url: 'https://api.github.com/repos/himanshuk-optimus/'+repoName+'/git/trees/'+gitSha+'?recursive=1',
+            head: 'Accept: application/api.github.VERSION.raw',
+            success: function(results, xhr)
+            {
+                console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+                results.tree.map( function(currentValue) {
+                    if(currentValue.type === 'blob') {
+                       console.log('Folder = > ',  currentValue.path);
+                       getNumberOfToDos(username, repoName, branchName);
+                    }
+                });
+            }
+        });
+    };
+
 
     var getBranchsGithubRepository = function(username, repoName) {
         $.ajax({
@@ -61,8 +60,8 @@ $(document).ready( function() {
                         branchName  = currentValue.ref.split('/').pop();
                         $table.push('<div class=""><span class="">' + currentValue.ref + '</span><br><span class="">' + currentValue.object.url + '</span></div>');
                         $options.push('<option>' + branchName + '</option>');
-                        getAllTheFileFormAllBranch(gitSha, repoName);
-                        getNumberOfToDos(username, repoName, branchName);
+                        getAllTheFileFormAllBranch(username, repoName, gitSha, branchName);
+                        // getNumberOfToDos(username, repoName, branchName);
                     }
                 });
                 $('.c-gitSelect')[0].innerHTML = $options.join('');
